@@ -6,14 +6,15 @@ public class ParticleEmitter : MonoBehaviour
 {
     public ParticleSystem flameThrower;
     public ParticleSystem afterBurn;
+    public ParticleDecalPool splatDecalPool;
 
     [HideInInspector] public ParticleSystem firstChild;
     [HideInInspector] public ParticleSystem secondChild;
+    [HideInInspector] public float fireCD;
 
     public Gradient flameColor;
     public float colorRange;
     public float timer = 0;
-    [HideInInspector] public float fireCD;
 
 
 
@@ -29,11 +30,11 @@ public class ParticleEmitter : MonoBehaviour
 
     public void EmitAtLocation(ParticleCollisionEvent collision)
     {
-        afterBurn.transform.position = collision.intersection;
-        afterBurn.transform.rotation = Quaternion.LookRotation(collision.normal);
 
         ParticleSystem.MainModule psMain = afterBurn.main;
         psMain.startColor = flameColor.Evaluate(colorRange);
+        afterBurn.transform.position = collision.intersection;
+        afterBurn.transform.rotation = Quaternion.LookRotation(collision.normal);
         
         afterBurn.Emit(1);
         afterBurn.transform.GetChild(0).GetComponent<ParticleSystem>().Emit(1);
@@ -61,7 +62,7 @@ public class ParticleEmitter : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.R))
+        if(Input.GetMouseButtonDown(1))
         {
             colorRange = Random.Range(0f, 1f);
         }

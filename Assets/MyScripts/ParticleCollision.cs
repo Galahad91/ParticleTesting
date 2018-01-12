@@ -6,7 +6,7 @@ public class ParticleCollision : MonoBehaviour
 {
 
     public ParticleEmitter particleController;
-
+   
     [SerializeField]public List<ParticleCollisionEvent> collisionEvents;
 
     void Start ()
@@ -21,7 +21,7 @@ public class ParticleCollision : MonoBehaviour
         ParticlePhysicsExtensions.GetCollisionEvents(particleController.secondChild, other, collisionEvents);
         for (int i = 0; i < collisionEvents.Count; i++)
         {
-
+            particleController.splatDecalPool.ParticleHit(collisionEvents[i], particleController.flameColor);
             particleController.EmitAtLocation(collisionEvents[i]);
         }
     }
