@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 198706231640889004}
   - component: {fileID: 135871872336377324}
   - component: {fileID: 114301460306458090}
-  - component: {fileID: 114921241265854968}
+  - component: {fileID: 114941930759522096}
   m_Layer: 8
   m_Name: Afterburner
   m_TagString: Untagged
@@ -174,7 +174,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1974622330479132}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 5.400362, y: -2.067084, z: 7.61397}
+  m_LocalPosition: {x: 4.78, y: -2.067084, z: 7.61397}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4356281984645546}
@@ -341,7 +341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particleController: {fileID: 0}
---- !u!114 &114921241265854968
+--- !u!114 &114941930759522096
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -360,18 +360,18 @@ MonoBehaviour:
   fireCD: 0
   flameColor:
     serializedVersion: 2
-    key0: {r: 0.9191176, g: 0.2635705, b: 0.2635705, a: 1}
-    key1: {r: 0, g: 0.70197755, b: 0.9338235, a: 1}
-    key2: {r: 0.6492727, g: 0.18063176, b: 0.8534335, a: 0}
-    key3: {r: 0.2023923, g: 0.86764705, b: 0.17863323, a: 0}
-    key4: {r: 0.2023923, g: 0.86764705, b: 0.17863323, a: 0}
+    key0: {r: 0.9558824, g: 0.042171266, b: 0.042171266, a: 1}
+    key1: {r: 0.22246844, g: 0.96418685, b: 0.31965923, a: 1}
+    key2: {r: 0.0184905, g: 0.12590525, b: 0.83823526, a: 0}
+    key3: {r: 0.9219327, g: 0.9797578, b: 0.56052566, a: 0}
+    key4: {r: 0.7175038, g: 0.069420435, b: 0.78676474, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 7132
-    ctime1: 18697
-    ctime2: 43562
-    ctime3: 53585
+    ctime0: 12914
+    ctime1: 23130
+    ctime2: 33924
+    ctime3: 47995
     ctime4: 65535
     ctime5: 0
     ctime6: 0
@@ -385,10 +385,10 @@ MonoBehaviour:
     atime6: 0
     atime7: 0
     m_Mode: 1
-    m_NumColorKeys: 4
+    m_NumColorKeys: 5
     m_NumAlphaKeys: 2
   colorRange: 0
-  timer: 0.01
+  timer: 0.1
 --- !u!114 &114975979128213304
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6896,7 +6896,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 1879583147
+  randomSeed: -473989551
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -10137,7 +10137,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1825033332
+  randomSeed: 1419593602
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -11278,7 +11278,7 @@ ParticleSystem:
     z:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 20
+      scalar: 32
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -13399,7 +13399,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 1669489733
+  randomSeed: -1460725412
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -16601,7 +16601,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -1421467430
+  randomSeed: -1354662322
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -19821,7 +19821,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -355297408
+  randomSeed: -1923789249
   InitialModule:
     serializedVersion: 3
     enabled: 1
