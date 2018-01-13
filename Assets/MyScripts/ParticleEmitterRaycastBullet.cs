@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ParticleEmitter : MonoBehaviour
+public class ParticleEmitterRaycastBullet : MonoBehaviour
 {
     public ParticleSystem flameThrower;
     public ParticleSystem afterBurn;
@@ -10,12 +10,13 @@ public class ParticleEmitter : MonoBehaviour
 
     [HideInInspector] public ParticleSystem firstChild;
     [HideInInspector] public ParticleSystem secondChild;
+    [HideInInspector] public ParticleSystem.Particle[] bullets;
     [HideInInspector] public float fireCD;
 
     public Gradient flameColor;
     public float colorRange;
     public float timer = 0;
-
+    public float rayLenght = 2;
 
 
     void Awake ()
@@ -28,13 +29,12 @@ public class ParticleEmitter : MonoBehaviour
 
    
 
-    public void EmitAtLocation(ParticleCollisionEvent collision)
+    public void EmitAtLocation(Vector3 collision)
     {
         ParticleSystem.MainModule psMain = afterBurn.main;
         psMain.startColor = flameColor.Evaluate(colorRange);
-
-        afterBurn.transform.position = collision.intersection;
-        afterBurn.transform.rotation = Quaternion.LookRotation(collision.normal);
+        afterBurn.transform.position = collision;
+        afterBurn.transform.rotation = Quaternion.LookRotation(collision);
         
         afterBurn.Emit(1);
         afterBurn.transform.GetChild(0).GetComponent<ParticleSystem>().Emit(1);
@@ -43,6 +43,29 @@ public class ParticleEmitter : MonoBehaviour
 
     void Update ()
     {
+        if (bullets == null || bullets.Length < secondChild.main.maxParticles)
+            bullets = new ParticleSystem.Particle[secondChild.main.maxParticles];
+
+        int numParticlesAlive = secondChild.GetParticles(bullets);
+
+        for (int i = 0; i < numParticlesAlive; i++)
+        {
+            RaycastHit hit;
+            Debug.DrawRay(bullets[i].position, transform.forward, Color.blue);
+
+            if (Physics.Raycast(bullets[i].position, transform.forward, out hit, rayLenght))
+            {
+                if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Default"))
+                {
+                    EmitAtLocation(hit.point);
+                }
+            }
+          
+        }
+
+        // Apply the particle changes to the particle system
+        secondChild.SetParticles(bullets, numParticlesAlive);
+
         if (fireCD > 0)
         {
             fireCD -= Time.deltaTime;
@@ -59,7 +82,8 @@ public class ParticleEmitter : MonoBehaviour
             {
                 secondChild.Emit(1);
                 fireCD = timer;
-                Debug.Log("EMIT");
+
+              
             }
         }
 

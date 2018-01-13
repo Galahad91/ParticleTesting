@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ParticleEmitter : MonoBehaviour
+public class ParticleEmitterRaycast : MonoBehaviour
 {
     public ParticleSystem flameThrower;
     public ParticleSystem afterBurn;
@@ -15,7 +15,7 @@ public class ParticleEmitter : MonoBehaviour
     public Gradient flameColor;
     public float colorRange;
     public float timer = 0;
-
+    public float rayLenght = 2;
 
 
     void Awake ()
@@ -28,13 +28,12 @@ public class ParticleEmitter : MonoBehaviour
 
    
 
-    public void EmitAtLocation(ParticleCollisionEvent collision)
+    public void EmitAtLocation(Vector3 collision)
     {
         ParticleSystem.MainModule psMain = afterBurn.main;
         psMain.startColor = flameColor.Evaluate(colorRange);
-
-        afterBurn.transform.position = collision.intersection;
-        afterBurn.transform.rotation = Quaternion.LookRotation(collision.normal);
+        afterBurn.transform.position = collision;
+        afterBurn.transform.rotation = Quaternion.LookRotation(collision);
         
         afterBurn.Emit(1);
         afterBurn.transform.GetChild(0).GetComponent<ParticleSystem>().Emit(1);
@@ -59,7 +58,17 @@ public class ParticleEmitter : MonoBehaviour
             {
                 secondChild.Emit(1);
                 fireCD = timer;
-                Debug.Log("EMIT");
+
+                RaycastHit hit;
+                Debug.DrawRay(transform.position, transform.forward, Color.blue);
+
+               if( Physics.Raycast(transform.position,transform.forward, out hit, rayLenght))
+               {
+                    if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Default"))
+                    {
+                        EmitAtLocation(hit.point);
+                    }
+               }
             }
         }
 
