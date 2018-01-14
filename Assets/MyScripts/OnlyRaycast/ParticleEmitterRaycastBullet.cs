@@ -51,13 +51,15 @@ public class ParticleEmitterRaycastBullet : MonoBehaviour
 
         for (int i = 0; i < numParticlesAlive; i++)
         {
+            float currentSize = bullets[i].GetCurrentSize(Gun);
             RaycastHit hit;
             Debug.DrawRay(bullets[i].position, bullets[i].velocity, Color.blue);
 
+            Debug.Log(bullets[i].GetCurrentSize(Gun));
             if (Physics.Raycast(bullets[i].position, bullets[i].velocity, out hit, rayLenght))
             {
                 if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Default"))
-                {                    
+                {
                   // EmitAtLocation(hit.point,hit.normal);
                    splatDecalPool.ParticleHit(hit.point, bulletColor, hit.normal, colorRange);
                    bullets[i].startLifetime = 0;
