@@ -32,11 +32,7 @@ public class ParticleEmitterRaycastBullet : MonoBehaviour
         ParticleSystem.MainModule psMain = afterBurn.main;
         psMain.startColor = bulletColor.Evaluate(colorRange);
         afterBurn.transform.position = collision;
-        //afterBurn.transform.rotation = Quaternion.LookRotation(collisionNormal);
-
-        Vector3 particleRotationEuler = Quaternion.LookRotation(collisionNormal).eulerAngles;
-        particleRotationEuler.z = Random.Range(0, 300);
-        afterBurn.transform.eulerAngles = particleRotationEuler;
+        afterBurn.transform.rotation = Quaternion.LookRotation(collisionNormal);
 
         afterBurn.Emit(1);
         Debug.Log("entro");
