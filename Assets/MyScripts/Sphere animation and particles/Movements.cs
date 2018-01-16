@@ -5,22 +5,38 @@ using UnityEngine;
 public class Movements : MonoBehaviour
 {
     public FlameSpheres stance;
-    public float velocity;
     public ParticleSystem impact;
-    public bool isFlying = false;
     public float rayLenght;
-    //CharacterController controller;
-    Rigidbody controller;
+    public Transform camerMain;
+    public float health = 100;
+    public float skillDmg = 20;
+
+    [HideInInspector] public bool isFlying = false;
+    [HideInInspector] public float velocity;
+    [HideInInspector] public Rigidbody controller;
 
 	// Use this for initialization
-	void Start ()
+	void Awake ()
     {
-        //controller = GetComponent<CharacterController>();
         controller = GetComponent<Rigidbody>();
+        camerMain = transform.Find("CameraPin");//.GetChild(0).GetChild(0); 
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    public void DealDamage(GameObject enemy, float dmg)
+    {
+        Debug.Log("entro");
+        if (enemy.GetComponent<Enemy>().health > dmg)
+        {
+            enemy.GetComponent<Enemy>().health -= dmg;
+        }
+        else
+        {
+            Destroy(enemy);
+        }
+    }
+
+
+    void Update ()
     {
         velocity = controller.velocity.magnitude;
         RaycastHit hit;
@@ -31,36 +47,46 @@ public class Movements : MonoBehaviour
             {
                 if(velocity > 15 && isFlying)
                 {
+                    ParticleSystem.MainModule psmain = impact.GetComponent<ParticleSystem>().main;
+                    psmain.startColor = stance.color.Evaluate(stance.cRange);
                     impact.transform.position = transform.position;
+
                     impact.Emit(1);
                 }
 
                 isFlying = false;
             }
         }
-            else
-            {
-                isFlying = true;
-            }
-
-		if(stance.stance != 0.5f && !isFlying)
+        else
         {
-            if(Input.GetKey(KeyCode.W))
+                isFlying = true;
+        }
+        #region Movements
+
+        transform.rotation = Quaternion.LookRotation(camerMain.forward);
+
+        if(stance.cap != 0.5f && !isFlying)
+        {
+            if (velocity < 20)
             {
-                controller.AddForce(transform.forward * 20);
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                controller.AddForce(-transform.right * 20);
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                controller.AddForce(-transform.forward * 20);
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                controller.AddForce(transform.right * 20);
+                if (Input.GetKey(KeyCode.W))
+                {
+                    controller.AddForce(transform.forward * 20);
+                }
+                if (Input.GetKey(KeyCode.A))
+                {
+                    controller.AddForce(-transform.right * 20);
+                }
+                if (Input.GetKey(KeyCode.S))
+                {
+                    controller.AddForce(-transform.forward * 20);
+                }
+                if (Input.GetKey(KeyCode.D))
+                {
+                    controller.AddForce(transform.right * 20);
+                }
             }
         }
-	}
+        #endregion
+    }
 }

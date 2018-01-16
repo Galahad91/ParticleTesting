@@ -6,6 +6,7 @@ public class FlameSpheres : MonoBehaviour
 {
     public Animator anim;
     public float stance;
+    public float cap;
     public GameObject[] Fireballs;
     public int fireballCapacity;
     public GameObject fireball;
@@ -37,7 +38,6 @@ public class FlameSpheres : MonoBehaviour
 	
     void ChangeStartColor(ParticleSystem sphere1, ParticleSystem sphere2, ParticleSystem sphere3)
     {
-        Debug.Log("ChangeStartColor");
         ParticleSystem.MainModule psmain1 = sphere1.main;
         psmain1.startColor = color.Evaluate(cRange);
         ChangeColorAllParticles(sphere1);
@@ -51,7 +51,6 @@ public class FlameSpheres : MonoBehaviour
 
     void ChangeColorAllParticles(ParticleSystem sphere)
     {
-        Debug.Log("ChangeColorAllParticles");
         if (bullets == null || bullets.Length < sphere.main.maxParticles)
             bullets = new ParticleSystem.Particle[sphere.main.maxParticles];
 
@@ -75,28 +74,39 @@ public class FlameSpheres : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
-
-            if (stance == 1)
+            if (cap == 1)
             {
-                stance = 0;
-                cRange = 0;
+                cap = 0;
+                cRange = cap;
 
                 ChangeStartColor(sphere1,sphere2,sphere3);      
             }
             else
             {
-                stance += 0.5f;
-                cRange = stance;
+                cap += 0.5f;
+                cRange = cap;
 
                 ChangeStartColor(sphere1, sphere2, sphere3);
             }
-      
-            anim.SetFloat("Stance", stance);
 
         }
+        if (stance != cap)
+        {
+           if (stance > cap)
+           {
+              stance -= Time.deltaTime;
+           }
+           else if (stance < cap)
+           {
+                    stance += Time.deltaTime;
+           }
+
+        }
+        anim.SetFloat("Stance", stance);
+
         if(Input.GetMouseButtonDown(0))
         {
-            if (stance == 0 || stance == 1)
+            if (cap == 0 || cap == 1)
             {
                 for (int i = 0; i < fireballCapacity;)
                 {
@@ -106,8 +116,7 @@ public class FlameSpheres : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("entro");
-                        Fireballs[i].transform.position = transform.position + new Vector3(0, 1, 1);
+                        Fireballs[i].transform.position = transform.position + new Vector3(0, 0.5f, 0);
                         Fireballs[i].GetComponent<Rigidbody>().isKinematic = false;
                         Fireballs[i].GetComponent<Rigidbody>().AddForce(transform.parent.forward * 2000);
                         Fireballs[i].GetComponent<SphereBehaviour>().isActive = true;
@@ -126,7 +135,7 @@ public class FlameSpheres : MonoBehaviour
             }           
         }
 #region Inputs
-        if (Input.GetMouseButton(0) && stance == 0.5f)
+        if (Input.GetMouseButton(0) && cap == 0.5f)
         {
 
             if (Input.GetKey(KeyCode.D))
@@ -154,7 +163,8 @@ public class FlameSpheres : MonoBehaviour
             }
             else
             {
-                transform.parent.GetComponent<Rigidbody>().AddForce((Vector3.up) * (1000 * Time.deltaTime));
+                 transform.parent.GetComponent<Rigidbody>().AddForce((Vector3.up) * (1000 * Time.deltaTime));
+                //transform.parent.GetComponent<Rigidbody>().AddExplosionForce(100, transform.parent.position - (-Vector3.up), 10, 100);
             }
 
         }
