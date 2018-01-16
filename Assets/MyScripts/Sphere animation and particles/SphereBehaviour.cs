@@ -10,6 +10,7 @@ public class SphereBehaviour : MonoBehaviour
     public Rigidbody gravity;
     public Gradient color;
     public float cRange;
+    float timer = 4;
 
 	void Start ()
     {
@@ -20,6 +21,11 @@ public class SphereBehaviour : MonoBehaviour
     {
 		if(isActive)
         {
+            //if(timer > 0)
+            //{
+
+            //}
+
             gravity.useGravity = true;
             RaycastHit hit;
             Debug.DrawRay(transform.position, gravity.velocity, Color.red);
