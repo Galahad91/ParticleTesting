@@ -10,6 +10,10 @@ public class Movements : MonoBehaviour
     public Transform camerMain;
     public float health = 100;
     public float skillDmg = 20;
+    public float heightCap = 50f;
+    public float currentHeight;
+    public float velocityCap = 20f;
+
 
     [HideInInspector] public bool isFlying = false;
     [HideInInspector] public float velocity;
@@ -18,6 +22,7 @@ public class Movements : MonoBehaviour
 	// Use this for initialization
 	void Awake ()
     {
+        currentHeight = heightCap - transform.position.y;
         controller = GetComponent<Rigidbody>();
         camerMain = transform.Find("CameraPin");//.GetChild(0).GetChild(0); 
     }
@@ -65,28 +70,79 @@ public class Movements : MonoBehaviour
 
         transform.rotation = Quaternion.LookRotation(camerMain.forward);
 
-        if(stance.cap != 0.5f && !isFlying)
-        {
-            if (velocity < 20)
+
+        if (stance.cap != 0.5f && !isFlying)
+        {          
+            if (velocity < velocityCap)
             {
                 if (Input.GetKey(KeyCode.W))
                 {
-                    controller.AddForce(transform.forward * 20);
+                    if(controller.velocity.z < velocityCap)
+                       controller.AddForce(transform.forward * velocityCap);
                 }
                 if (Input.GetKey(KeyCode.A))
                 {
-                    controller.AddForce(-transform.right * 20);
+                    if (controller.velocity.x > -velocityCap)
+                        controller.AddForce(-transform.right * velocityCap);
                 }
                 if (Input.GetKey(KeyCode.S))
                 {
-                    controller.AddForce(-transform.forward * 20);
+                    if (controller.velocity.z > -velocityCap)
+                        controller.AddForce(-transform.forward * velocityCap);
                 }
                 if (Input.GetKey(KeyCode.D))
                 {
-                    controller.AddForce(transform.right * 20);
+                    if (controller.velocity.x < velocityCap)
+                        controller.AddForce(transform.right * velocityCap);
                 }
             }
         }
         #endregion
+
+        #region Flying
+        if (stance.cap == 0.5f)
+        {
+            //Mathf.Clamp(currentHeight, 0, heightCap);
+
+            //currentHeight = heightCap - transform.position.y;
+
+            if (Input.GetKey(KeyCode.D))
+            {
+                if (controller.velocity.x < velocityCap)
+                    controller.AddForce((transform.right) * ( 1000 * Time.deltaTime));
+            }
+
+            else if (Input.GetKey(KeyCode.W))
+            {
+                //if (controller.velocity.z < velocityCap)
+                    controller.AddForce(transform.forward * (1000 * Time.deltaTime));
+            }
+
+            else if (Input.GetKey(KeyCode.A))
+            {
+                //if (controller.velocity.x < -velocityCap)
+                    controller.AddForce(-transform.right * (1000 * Time.deltaTime));
+            }
+
+            else if (Input.GetKey(KeyCode.S))
+            {
+               // if (controller.velocity.z < -velocityCap)
+                    controller.AddForce(-transform.forward * (1000 * Time.deltaTime));
+            }
+
+            if (Input.GetKey(KeyCode.Space))
+            {
+                //if (controller.velocity.y < -velocityCap)
+                    controller.AddForce((-Vector3.up) * (1000 * Time.deltaTime));
+            }
+            else if (Input.GetMouseButton(0))
+            {
+                //if (controller.velocity.y < velocityCap)
+                    controller.AddForce((Vector3.up) * (1000 * Time.deltaTime));            
+            }
+
+        }
+        #endregion
+
     }
 }

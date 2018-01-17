@@ -134,41 +134,6 @@ public class FlameSpheres : MonoBehaviour
                 }
             }           
         }
-#region Inputs
-        if (Input.GetMouseButton(0) && cap == 0.5f)
-        {
-
-            if (Input.GetKey(KeyCode.D))
-            {
-                transform.parent.GetComponent<Rigidbody>().AddForce((Vector3.up + transform.parent.right) * (1000 * Time.deltaTime));
-            }
-
-            else if (Input.GetKey(KeyCode.W))
-            {
-                transform.parent.GetComponent<Rigidbody>().AddForce((Vector3.up + transform.parent.forward) * (1000 * Time.deltaTime));
-            }
-
-            else if (Input.GetKey(KeyCode.A))
-            {
-                transform.parent.GetComponent<Rigidbody>().AddForce((Vector3.up + (-transform.parent.right)) * (1000 * Time.deltaTime));
-            }
-
-            else if (Input.GetKey(KeyCode.S))
-            {
-                transform.parent.GetComponent<Rigidbody>().AddForce((Vector3.up + (-transform.parent.forward)) * (1000 * Time.deltaTime));
-            }
-            else if (Input.GetKey(KeyCode.Space))
-            {
-                transform.parent.GetComponent<Rigidbody>().AddForce((-Vector3.up) * (1000 * Time.deltaTime));
-            }
-            else
-            {
-                 transform.parent.GetComponent<Rigidbody>().AddForce((Vector3.up) * (1000 * Time.deltaTime));
-                //transform.parent.GetComponent<Rigidbody>().AddExplosionForce(100, transform.parent.position - (-Vector3.up), 10, 100);
-            }
-
-        }
-#endregion
 
     }
 }
