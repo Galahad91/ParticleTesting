@@ -13,6 +13,8 @@ public class Movements : MonoBehaviour
     public float heightCap = 50f;
     public float currentHeight;
     public float velocityCap = 20f;
+    public Vector3 constantSpeed;
+    public Vector3 constantHeight;
 
 
     [HideInInspector] public bool isFlying = false;
@@ -37,11 +39,12 @@ public class Movements : MonoBehaviour
         else
         {
             Destroy(enemy);
+            GameManager.instance.currentEnemyNumber--;
         }
     }
 
 
-    void Update ()
+    void FixedUpdate ()
     {
         velocity = controller.velocity.magnitude;
         RaycastHit hit;
@@ -66,83 +69,95 @@ public class Movements : MonoBehaviour
         {
                 isFlying = true;
         }
+
         #region Movements
 
         transform.rotation = Quaternion.LookRotation(camerMain.forward);
+       
+        currentHeight = transform.position.y;
 
-
-        if (stance.cap != 0.5f && !isFlying)
-        {          
-            if (velocity < velocityCap)
-            {
-                if (Input.GetKey(KeyCode.W))
-                {
-                    if(controller.velocity.z < velocityCap)
-                       controller.AddForce(transform.forward * velocityCap);
-                }
-                if (Input.GetKey(KeyCode.A))
-                {
-                    if (controller.velocity.x > -velocityCap)
-                        controller.AddForce(-transform.right * velocityCap);
-                }
-                if (Input.GetKey(KeyCode.S))
-                {
-                    if (controller.velocity.z > -velocityCap)
-                        controller.AddForce(-transform.forward * velocityCap);
-                }
-                if (Input.GetKey(KeyCode.D))
-                {
-                    if (controller.velocity.x < velocityCap)
-                        controller.AddForce(transform.right * velocityCap);
-                }
-            }
-        }
-        #endregion
-
-        #region Flying
-        if (stance.cap == 0.5f)
+        if ((stance.cap == 0 || stance.cap == 1) && !isFlying)
         {
-            //Mathf.Clamp(currentHeight, 0, heightCap);
-
-            //currentHeight = heightCap - transform.position.y;
-
             if (Input.GetKey(KeyCode.D))
             {
-                if (controller.velocity.x < velocityCap)
-                    controller.AddForce((transform.right) * ( 1000 * Time.deltaTime));
+                constantSpeed = new Vector3(velocityCap, 0, 0);
+                controller.AddForce(transform.right * (1000 * Time.deltaTime));
+                if (controller.velocity.x > velocityCap)
+                    controller.velocity = constantSpeed;
             }
 
             else if (Input.GetKey(KeyCode.W))
             {
-                //if (controller.velocity.z < velocityCap)
-                    controller.AddForce(transform.forward * (1000 * Time.deltaTime));
+                constantSpeed = new Vector3(0, 0, velocityCap);
+                controller.AddForce(transform.forward * (1000 * Time.deltaTime));
+                if (controller.velocity.z > velocityCap)
+                    controller.velocity = constantSpeed;
             }
 
             else if (Input.GetKey(KeyCode.A))
             {
-                //if (controller.velocity.x < -velocityCap)
-                    controller.AddForce(-transform.right * (1000 * Time.deltaTime));
+                constantSpeed = new Vector3(velocityCap, 0, 0);
+                controller.AddForce(-transform.right * (1000 * Time.deltaTime));
+                if (controller.velocity.x > velocityCap)
+                    controller.velocity = constantSpeed;
             }
 
             else if (Input.GetKey(KeyCode.S))
             {
-               // if (controller.velocity.z < -velocityCap)
-                    controller.AddForce(-transform.forward * (1000 * Time.deltaTime));
+                constantSpeed = new Vector3(0, 0, velocityCap);
+                controller.AddForce(-transform.forward * (1000 * Time.deltaTime));
+                if (controller.velocity.z > velocityCap)
+                    controller.velocity = constantSpeed;
+            }
+        }
+
+        if (stance.cap == 0.5f)
+        {
+            if (Input.GetKey(KeyCode.D))
+            {
+                constantSpeed = new Vector3(velocityCap, 0, 0);
+                controller.AddForce(transform.right * (1000 * Time.deltaTime));
+                if (controller.velocity.x > velocityCap)
+                    controller.velocity = constantSpeed;
+            }
+            else if (Input.GetKey(KeyCode.W))
+            {
+                constantSpeed = new Vector3(0, 0, velocityCap);
+                controller.AddForce(transform.forward * (1000 * Time.deltaTime));
+                if (controller.velocity.z > velocityCap)
+                    controller.velocity = constantSpeed;
+            }
+            else if (Input.GetKey(KeyCode.A))
+            {
+                constantSpeed = new Vector3(velocityCap, 0, 0);
+                controller.AddForce(-transform.right * (1000 * Time.deltaTime));
+                if (controller.velocity.x > velocityCap)
+                    controller.velocity = constantSpeed;
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                constantSpeed = new Vector3(0, 0, velocityCap);
+                controller.AddForce(-transform.forward * (1000 * Time.deltaTime));
+                if (controller.velocity.z > velocityCap)
+                    controller.velocity = constantSpeed;
             }
 
             if (Input.GetKey(KeyCode.Space))
             {
-                //if (controller.velocity.y < -velocityCap)
-                    controller.AddForce((-Vector3.up) * (1000 * Time.deltaTime));
+                constantHeight = constantSpeed + new Vector3(0, velocityCap, 0);
+                controller.AddForce((-Vector3.up) * (1000 * Time.deltaTime));
+                if (controller.velocity.y > velocityCap)
+                    controller.velocity = constantHeight;
             }
-            else if (Input.GetMouseButton(0))
+            else if (Input.GetMouseButton(0) && currentHeight < heightCap)
             {
-                //if (controller.velocity.y < velocityCap)
-                    controller.AddForce((Vector3.up) * (1000 * Time.deltaTime));            
+                constantHeight = constantSpeed + new Vector3(0, velocityCap, 0);
+                controller.AddForce((Vector3.up) * (1000 * Time.deltaTime));
+                if (controller.velocity.y > velocityCap)
+                    controller.velocity = constantHeight;
             }
-
         }
+        
         #endregion
-
     }
 }

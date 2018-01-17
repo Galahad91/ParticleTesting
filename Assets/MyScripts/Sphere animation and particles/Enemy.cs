@@ -1,25 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
     public ParticleSystem skill;
     public GameObject player;
     public float skillCD = 4;
-    public float timer;
+    public float skillTimer;
     public float rayLenght = 1;
     public float aggroRange = 30;
     public float dmg = 10;
     public float health = 100;
+    public float pathTimer;
+    public float pathCD = 2;
 
-   [HideInInspector] public ParticleSystem.Particle[] bullets;
+    [HideInInspector] public ParticleSystem.Particle[] bullets;
+    [HideInInspector] public NavMeshAgent agent;
 
-    void Start ()
+    void Awake ()
     {
-		
+        agent = GetComponent<NavMeshAgent>();
 	}
-	
+    private void Start()
+    {
+        player = GameManager.instance.player;
+        agent.SetDestination(player.transform.position);
+    }
+
     void DealDamage(GameObject player, float dmg)
     {
         if (player.GetComponent<Movements>().health > dmg)
@@ -34,18 +43,28 @@ public class Enemy : MonoBehaviour
 
 	void Update ()
     {
+        if(pathTimer > 0)
+        {
+            pathTimer -= Time.deltaTime;
+        }
+        else
+        {
+            agent.SetDestination(player.transform.position);
+            pathTimer = pathCD;
+        }
+
 		if(Vector3.Distance(transform.position, player.transform.position)<aggroRange)
         {
             transform.LookAt(player.transform);
 
-            if(timer <= 0)
+            if(skillTimer <= 0)
             {
                 skill.Emit(1);
-                timer = skillCD;
+                skillTimer = skillCD;
             }
             else
             {
-                timer -= Time.deltaTime;
+                skillTimer -= Time.deltaTime;
             }
 
            #region Particles Raycast

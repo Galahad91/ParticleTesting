@@ -90,6 +90,7 @@ public class FlameSpheres : MonoBehaviour
             }
 
         }
+
         if (stance != cap)
         {
            if (stance > cap)
