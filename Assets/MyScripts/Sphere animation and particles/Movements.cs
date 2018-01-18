@@ -7,7 +7,8 @@ public class Movements : MonoBehaviour
     public FlameSpheres stance;
     public ParticleSystem impact;
     public float rayLenght;
-    public Transform camerMain;
+    public CameraScript camerMain;
+    public Transform cameraTransform;
     public float health = 100;
     public float skillDmg = 20;
     public float heightCap = 50f;
@@ -26,7 +27,8 @@ public class Movements : MonoBehaviour
     {
         currentHeight = heightCap - transform.position.y;
         controller = GetComponent<Rigidbody>();
-        camerMain = transform.Find("CameraPin");//.GetChild(0).GetChild(0); 
+        cameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        camerMain = cameraTransform.GetComponent<CameraScript>();
     }
 
     public void DealDamage(GameObject enemy, float dmg)
@@ -72,8 +74,9 @@ public class Movements : MonoBehaviour
 
         #region Movements
 
-        transform.rotation = Quaternion.LookRotation(camerMain.forward);
-       
+        transform.Rotate(new Vector3(0, camerMain.currentX, 0));
+        //transform.rotation = Quaternion.LookRotation(cameraTransform.forward);
+
         currentHeight = transform.position.y;
 
         if ((stance.cap == 0 || stance.cap == 1) && !isFlying)
