@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4538253554822300}
   - component: {fileID: 114212079942108164}
+  - component: {fileID: 114080641033435396}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -40,6 +41,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114080641033435396
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1202299851637274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a14e0d7f0eafc3e4caaecd161a69b072, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crosshairHitTexture: {fileID: 2800000, guid: f4707f37cc0e44b48831e6ab76caa7b2, type: 3}
+  crosshairDefaultTexture: {fileID: 2800000, guid: a1cbf2988b42d434098277b5e1606541,
+    type: 3}
+  crosshairPos: {fileID: 0}
+  crossHairDistance: 10
+  offsetX: -40
+  offsetY: 60
+  size: 70
+  screenPos: {x: 0, y: 0, z: 0}
+  isEnemyHit: 0
 --- !u!114 &114212079942108164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -51,7 +73,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20de98d2b04c71c4a82cef1645f4784d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1174397992036782, guid: 6004dd35ff4888142b9a81c114f04d57, type: 2}
-  enemyList: []
-  currentEnemyNumber: 0
   maxEnemy: 15
+  currentEnemyNumber: 0
+  Weapons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  magicDepot: {fileID: 0}
+  InventoryDepot: {fileID: 0}
+  player: {fileID: 1174397992036782, guid: 6004dd35ff4888142b9a81c114f04d57, type: 2}
+  cameraMain: {fileID: 0}
+  cameraPin: {fileID: 0}
+  enemyList: []

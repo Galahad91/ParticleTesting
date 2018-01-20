@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Fire
   - Enemy
+  - CameraPin
+  - Weapon
+  - CurrentWeapon
+  - CurrentMagic
+  - WeaponHolder
   layers:
   - Default
   - TransparentFX
