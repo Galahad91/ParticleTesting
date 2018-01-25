@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public Transform magicDepot;
     public Transform InventoryDepot;
 
-    [HideInInspector] public GameObject player;
+    public GameObject player;
     [HideInInspector] public GameObject cameraMain;
     [HideInInspector] public Transform cameraPin;
     [HideInInspector] public GameObject[] enemyList;
